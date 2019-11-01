@@ -1,6 +1,5 @@
 ---
 layout: wiki
-title: What is Canary?
 ---
 
 ## What is Canary?
@@ -9,20 +8,19 @@ The name "Canary" comes from the iconic use of a [canary in a coal mine](https:/
 The build is somewhere near the tip of the development tree.
 It is updated whenever the PSL developers feel a significant change has been made in development.
 
-## Versioned Canary
-Canaries use the naming convention `CANARY-X.Y.Z` where `X.Y` matches the major/minor number of the next stable release and `Z` just increments by one for each canary build.
+## Versioned vs Unversioned Canary
+To make using the canary build easier for PSL users, we release **two** versions of the canary build in parallel.
+On version is always called `CANARY` and will replace the previous build.
+The other version will be called `CANARY-X.Y.Z` where `X.Y` matches the major/minor number of the next stable release and `Z` just increments by one for each canary build.
 
 Unfortunately, we do not yet have any fancy infrastructure to check what canary versions are available, so the easiest way will be to just look at the [maven repository](https://linqs-data.soe.ucsc.edu/maven/repositories/psl-releases/org/linqs/psl-groovy/).
 
-## Old Unversioned Canary
-Previously, an unversioned canary build (just called `CANARY`) was released alongside the versioned canary.
-This was useful for developers who always wanted to latest build.
-However as we are migrating our infrastructure, it is increasingly difficult to have a build's name carry over to several different versions.
-So, we dropped support for the unversioned canary build.
+If you always want the latest and are willing to have potential incompatibilities between updates, use the unversioned canary.
+If you want a newer version but don't want it to update or you are collaborating with other people, use the versioned canary.
 
 ## Using Canary
 
-### Java/Groovy
+### Groovy
 
 The use canary, simply change your PSL version in your `pom.xml` to `CANARY` or `CANARY-X.Y.Z` (with the proper substitution for `X.Y.Z`).
 
@@ -54,10 +52,7 @@ The use canary, simply change your PSL version in your `pom.xml` to `CANARY` or 
 
 Using the canary in the CLI just means grabbing the new jar file from the [Maven repository](https://linqs-data.soe.ucsc.edu/maven/repositories/psl-releases/org/linqs/psl-cli).
 
-### Python
-
-PIP requires different version naming conventions, so the canary builds will look a little different.
-They are named: `X.Y.0.devZ`.
-Like the other packages, `X.Y` matches the major/minor number of the next stable release and `Z` just increments by one for each canary build.
-
-The published versions can be seen here on [PyPI](https://pypi.org/project/pslpython/#history).
+### How do I update my Canary?
+If you are using the versioned canary, then just update your version numbers in your pom.
+If you are using the unversioned canary, then you will have to delete the old canary from your Maven cache.
+On Lunix/Mac, this is at: `~/.m2/repository/org/linqs/psl*/CANARY`
