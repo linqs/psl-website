@@ -73,8 +73,8 @@ For example to use the `DEBUG` logging level, you can pass the following argumen
 -D log4j.threshold=DEBUG
 ```
 
-#### Groovy
-To change the PSL logging level in the Groovy interface, you will need to edit the `src/main/resources/log4j.properties` file in your maven project.
+#### Java
+To change the PSL logging level in the Java interface, you will need to edit the `src/main/resources/log4j.properties` file in your maven project.
 Change the line that reads:
 ```
 log4j.rootLogger=ERROR, A1
@@ -92,7 +92,7 @@ log4j.rootLogger=DEBUG, A1
 
 Yes.  
 PSL's only hard requirement is Java 7/8.
-To use the Groovy interface, Maven should also be installed (although it is not strictly necessary for those with a lot of Java experience).
+To use the Java interface, Maven should also be installed (although it is not strictly necessary for those with a lot of Java experience).
 To use the CLI, nothing additional is required.
 
 However, the examples that we provide via the [PSL Examples Repository](https://github.com/linqs/psl-examples) contains shell scripts meant for UNIX-based systems (mainly tested on Linux and Mac).
