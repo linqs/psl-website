@@ -38,7 +38,10 @@ window.linqs.pubs.constructPubs = function(papers) {
             <div class='pubs-paper'>
                 <a class='pubs-paper-title' href='${window.linqs.pubs.linqswebsite}/publications/#id:${paper.id}'>
                     ${paper.title}
-                </a>
+                </a>.
+                <span>${paper.authors.join(', ')}</span>.
+                <span>${paper.venue}</span>
+                <span>${paper.year}</span>.
             </div>
         `;
     });
