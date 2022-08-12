@@ -34,7 +34,7 @@ youtube_username: LINQSLab
 rss: true
 
 # Show posts even if they are in the future.
-future: true
+future: false
 
 # Analytics
 google_analytics: UA-124343227-1
