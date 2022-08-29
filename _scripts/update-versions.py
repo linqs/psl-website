@@ -6,7 +6,6 @@ import shutil
 THIS_DIR = os.path.abspath(os.path.dirname(__file__))
 ROOT_DIR = os.path.join(THIS_DIR, '..')
 TARGET_DIRS = [
-    os.path.join(ROOT_DIR, 'api'),
     os.path.join(ROOT_DIR, 'wiki')
 ]
 

@@ -106,7 +106,7 @@ checkpoint_timeout = 30
 ## Using PostgreSQL in PSL
 
 ### Java
-To use Postgres in the Java interface, just use the [PostgreSQLDriver](/api/master/org/linqs/psl/database/rdbms/driver/PostgreSQLDriver.html) instead of the [H2DatabaseDriver](/api/master/org/linqs/psl/database/rdbms/driver/H2DatabaseDriver.html).
+To use Postgres in the Java interface, just use the [PostgreSQLDriver](https://javadoc.io/static/org.linqs/psl-core/2.3.0/org/linqs/psl/database/rdbms/driver/PostgreSQLDriver.html) instead of the [H2DatabaseDriver](https://javadoc.io/static/org.linqs/psl-core/2.3.0/org/linqs/psl/database/rdbms/driver/H2DatabaseDriver.html).
 There are various constructors that take in different information ranging from a database name to a full connection string.
 
 ```java

@@ -3,12 +3,12 @@ layout: wiki
 ---
 
 There are several levels of data abstraction in PSL to help manage and isolate data:
- - [DataStore](../../api/2.1.0/org/linqs/psl/database/DataStore.html)
- - [Database](../../api/2.1.0/org/linqs/psl/database/Database.html)
- - [Partition](../../api/2.1.0/org/linqs/psl/database/Partition.html)
+ - [DataStore](https://javadoc.io/static/org.linqs/psl-core/2.3.0/org/linqs/psl/database/DataStore.html)
+ - [Database](https://javadoc.io/static/org.linqs/psl-core/2.3.0/org/linqs/psl/database/Database.html)
+ - [Partition](https://javadoc.io/static/org.linqs/psl-core/2.3.0/org/linqs/psl/database/Partition.html)
 
 ## DataStore
-The [DataStore](../../api/2.1.0/org/linqs/psl/database/DataStore.html) represents the physical place that all the data is stored.
+The [DataStore](https://javadoc.io/static/org.linqs/psl-core/2.3.0/org/linqs/psl/database/DataStore.html) represents the physical place that all the data is stored.
 It matches one-to-one with an actual RDBMS database instance (either H2 or PostgreSQL).
 
 All data is stored in tables organized by predicate (one predicate to a table).
@@ -19,7 +19,7 @@ In this diagram, you can see how the data resides in the DataStore:
 ![DataStore](images/PSL-Data-Storage-DataStore.png)
 
 ## Database
-The [Database](../../api/2.1.0/org/linqs/psl/database/Database.html) is like a view onto a DataStore where subsets of the data are assigned to be read/write, read-only, or inaccessible.
+The [Database](https://javadoc.io/static/org.linqs/psl-core/2.3.0/org/linqs/psl/database/Database.html) is like a view onto a DataStore where subsets of the data are assigned to be read/write, read-only, or inaccessible.
 This makes it easy to do things like have observations and truth in the same database without worrying about one leaking into the other.
 
 To get a database, you call `DataStore.getDatabase()` on a DataStore.  
@@ -35,7 +35,7 @@ In this diagram, you can see what a Database set up as a truth for weight learni
 ![Database - Truth](images/PSL-Data-Storage-Truth-Database.png)
 
 ## Partition
-A [Partition](../../api/2.1.0/org/linqs/psl/database/Partition.html) is the most fine-grained collection of data in PSL.
+A [Partition](https://javadoc.io/static/org.linqs/psl-core/2.3.0/org/linqs/psl/database/Partition.html) is the most fine-grained collection of data in PSL.
 Every ground atom (piece of data) belongs to **exactly one** partition.
 Within a partition, all data must be unique (an exception will be thrown during data loading if this is broken).
 
