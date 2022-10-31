@@ -1,5 +1,5 @@
 ---
-layout: listdir
+layout: wiki-index
 targetDir: /wiki
 title: PSL Code Wiki
 nav-title: Wiki
@@ -9,6 +9,5 @@ permalink: /wiki/
 
 <h1>PSL Code Wiki</h1>
 
-Located here is a wiki for various versions of PSL.
-This wiki was previously hosted through Github.
-Newer versions are hosted live, while older versions are in downloadable archives.
+Located here is a wiki for the PSL codebase.
+If you wish to see previous versions of PSL, use the repository's tags.

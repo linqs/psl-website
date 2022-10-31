@@ -2,9 +2,7 @@
 layout: default
 ---
 
-{% assign version = page.dir | split: '/' | shift | last %}
-
-<h1>PSL Code Wiki -- Version {{ version }}</h1>
+{{ content }}
 
 <ul class='wiki-pages'>
     {% for wikiPage in site.pages %}
@@ -19,5 +17,3 @@ layout: default
         </li>
     {% endfor %}
 </ul>
-
-{{ content }}

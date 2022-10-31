@@ -2,7 +2,10 @@
 layout: default
 ---
 
-{% assign gitURLPrefix = "https://github.com/linqs/psl-website/blob/develop/" %}
+{% assign gitURLPrefix = "https://github.com/linqs/psl-website/blob/master/" %}
+{% assign name = page.name | replace: '.md', '' | replace: '-', ' ' %}
+
+<h1>{{ name }}</h1>
 
 {{ content }}
 
