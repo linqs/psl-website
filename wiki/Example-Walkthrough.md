@@ -2,21 +2,21 @@
 layout: wiki
 ---
 
-This page will walk you through the Groovy version of the **Simple Acquaintances** example.
+This page will walk you through the Groovy version of the **Easy Link Prediction** example.
 
 ## Setup
 
 First, ensure that your system meets the [prerequisites](Prerequisites.md).
 Then clone the `psl-examples` repository:
 ```
-git clone https://github.com/linqs/psl-examples.git
+git clone https://bitbucket.org/linqs/psl-examples.git
 ```
 
 ## Running
 
-Then move into the root directory for the simple acquaintances groovy example:
+Then move into the root directory for the easy link prediction example:
 ```
-cd psl-examples/simple-acquaintances/groovy
+cd psl-examples/link_prediction/easy/groovy
 ```
 
 Each example comes with a `run.sh` script to quickly compile and run the example.
@@ -25,65 +25,72 @@ To compile and run the example:
 ./run.sh
 ```
 
-To see the output of the example, check the `inferred-predicates/KNOWS.txt` file:
+To see the output of the example, check the `output/default/knows_infer.txt` file:
 ```
-cat inferred-predicates/KNOWS.txt
+cat output/default/knows_infer.txt
 ```
 
 You should see some output like:
 ```
-'Arti'	'Ben'	0.48425865173339844
-'Arti'	'Steve'	0.5642937421798706
+--- Atoms: 
+KNOWS(Steve, Ben) Truth=[0.64]
+KNOWS(Alex, Dhanya) Truth=[0.36]
 < ... 48 rows omitted for brevity ...>
-'Jay'	'Dhanya'	0.4534565508365631
-'Alex'	'Dhanya'	0.48786869645118713
+KNOWS(Dhanya, Ben) Truth=[0.55]
+KNOWS(Alex, Sabina) Truth=[0.44]
+# Atoms: 52
 ```
 The exact order of the output may change and some rows were left out for brevity.
 
 Now that we have the example running, lets take a look inside the only source file for the example:
-`src/main/java/org/linqs/psl/examples/simpleacquaintances/Run.groovy`.
+`src/main/java/edu/ucsc/linqs/psl/example/easylp/EasyLP.groovy`.
 
 ## Configuration
 
-All configuration in PSL is handled through the Config object.
-By default, PSL will look for two configuration files: `psl.properties` and `log4j.properties`.
-You can find these files in the `src/main/resources` directory.
-The Config class will automatically load these files (if they exist) and all the options in them.
-Configuration options can still be set using the `addProperty()` and `setProperty()` methods of the Config class.
+One of the first things you may notice in this file is a private classes that holds configuration data.
+In addition to ConfigBundles, it is sometimes also useful to create configuration classes that you can pass quickly change and run different experiments with.
+This is not required, but you may find it useful.
+
+In the `populateConfigBundle()` method you can see the ConfigBundle actually getting created:
+```groovy
+ConfigBundle cb = ConfigManager.getManager().getBundle("easylp");
+```
 
 ## Defining Predicates
 The `definePredicates()` method defines the three predicates for our example:
 ```groovy
-model.add predicate: "Lived", types: [ConstantType.UniqueStringID, ConstantType.UniqueStringID];
-model.add predicate: "Likes", types: [ConstantType.UniqueStringID, ConstantType.UniqueStringID];
-model.add predicate: "Knows", types: [ConstantType.UniqueStringID, ConstantType.UniqueStringID];
+model.add predicate: "Lived", types: [ConstantType.UniqueID, ConstantType.UniqueID];
+model.add predicate: "Likes", types: [ConstantType.UniqueID, ConstantType.UniqueID];
+model.add predicate: "Knows", types: [ConstantType.UniqueID, ConstantType.UniqueID];
 ```
 
-Each predicate here takes two unique string identifiers as arguments.
-Note that for unique identifiers, `ConstantType.UniqueStringID` and `ConstantType.UniqueIntID` are available.
-Having integer identifiers usually requires more pre-processing on the user's side, but gains better performance.
+Each predicate here takes two unique identifiers as arguments.
 - **Lived** indicates that a person has lived in a specific location. For example: Lived(Sammy, SantaCruz) would indicate that Sammy has lived in Santa Cruz.
 - **Likes** indicates the extent to which a person likes something. For example: Likes(Sammy, Hiking) would indicate the extent that Sammy likes hiking.
 - **Knows** indicates that a person knows some other person. For example: Knows(Sammy, Jay) would indicate that Sammy and Jay know each other.
 
 ## Defining Rules
-The `defineRules()` method defines six rules for the example.
+The `defineRules()` method defines seven rules for the example.
 There are pages that cover the PSL [rule specification](Rule-Specification.md) and the [rule specification in Groovy](Rule-Specification-in-Groovy.md).
 We will discuss the following two rules:
 ```groovy
 model.add(
-   rule: "20: Lived(P1, L) & Lived(P2, L) & (P1 != P2) -> Knows(P1, P2) ^2"
+   rule: ( Lived(P1,L) & Lived(P2,L) & (P1-P2) ) >> Knows(P1,P2),
+   squared: config.sqPotentials,
+   weight : config.weightMap["Lived"]
 );
 
 model.add(
-   rule: "5: !Knows(P1, P2) ^2"
+   rule: ~Knows(P1,P2),
+   squared:config.sqPotentials,
+   weight: config.weightMap["Prior"]
 );
 ```
 
 The first first rule can be read as "If P1 and P2 are different people and have both lived in the same location, L, then they know each other".
 Some key points to note from this rule are:
  - The variable `L` was reused in both `Lived` atoms and therefore must refer to the same location.
- - `(P1 != P2)` is shorthand for P1 and P2 referring to different people (different unique ids).
+ - `(P1 - P2)` is shorthand for P1 and P2 referring to different people (different unique ids).
 
 The second rule is a special rule that acts as a prior.
 Notice how this rule is not an implication like all the other rules.
@@ -94,25 +101,25 @@ Therefore, the program will start with the belief that no one knows each other a
 The `loadData()` method loads the data from the flat files in the `data` directory into the data store that PSL is working with.
 For berevity, we will only be looking at two files:
 ```groovy
-Inserter inserter = dataStore.getInserter(Lived, obsPartition);
-inserter.loadDelimitedData(Paths.get(DATA_PATH, "lived_obs.txt").toString());
+Inserter inserter = ds.getInserter(Lived, obsPartition);
+InserterUtils.loadDelimitedData(inserter, Paths.get(config.dataPath, "lived_obs.txt").toString());
 
-inserter = dataStore.getInserter(Likes, obsPartition);
-inserter.loadDelimitedDataTruth(Paths.get(DATA_PATH, "likes_obs.txt").toString());
+inserter = ds.getInserter(Likes, obsPartition);
+InserterUtils.loadDelimitedDataTruth(inserter, Paths.get(config.dataPath, "likes_obs.txt").toString());
 ```
 
-Both portions load data using an `Inserter`.
+Both portions load data using the `InserterUtils`.
 The primary difference between the two calls is that the second one is looking for a truth value while the first one assumes that 1 is the truth value.
 
 If we look in the files, we see lines like:
 
-`../data/lives_obs.txt`
+`data/lives_obs.txt`
 ```
 Jay	Maryland
 Jay	California
 ```
 
-`../data/likes_obs.txt`
+`data/likes_obs.txt`
 ```
 Jay	Machine Learning  1
 Jay	Skeeball 0.8
@@ -128,7 +135,6 @@ Here we must take a moment to talk about data partitions.
 In PSL, we use **partitions** to organize data.
 A partition is nothing more than a container for data, but we use them to keep specific chunks of data together or separate.
 For example if we are running evaluation, we must be sure not use our test partition in training.
-A more complete discussion of partitions and data storage in PSL can be found here on [this page](Data-Storage-in-PSL.md).
 
 PSL users typically organize their data in at least three different partitions (all of which you can see in this example):
 - **observations** (called `obsPartition` in this example): In this partition we put actual observed data. In this example, we put all the observations about who has lived where, who likes what, and who knows who in the observations partition.
@@ -140,7 +146,8 @@ The `runInference()` method handles running inference for all the data we have l
 
 Before we run inference, we have to set up a database to use for inference:
 ```groovy
-Database inferDB = dataStore.getDatabase(targetsPartition, [Lived, Likes] as Set, obsPartition);
+HashSet closed = new HashSet<StandardPredicate>([Lived, Likes]);
+Database inferDB = ds.getDatabase(targetsPartition, closed, obsPartition);
 ```
 The `getDatabase()` method of `DataStore` is the proper way to get a database.
 This method takes a minimum of two parameters:
@@ -151,13 +158,13 @@ In our example, we want to include our observations when we run inference.
 
 Now we are ready to run inference:
 ```groovy
-InferenceApplication inference = new MPEInference(model, inferDB);
-inference.inference();
-inference.close();
+MPEInference mpe = new MPEInference(model, inferDB, config.cb);
+mpe.mpeInference();
+mpe.close();
 inferDB.close();
 ```
 
-To the `MPEInference` constructor, we supply our model and the database to infer over.
+To the `MPEInference` constructor, we supply our model, the database to infer over, and our ConfigBundle.
 To see the results, then we will need to look inside of the target partition.
 
 ## Output
@@ -166,15 +173,15 @@ There are two key lines in this method:
 ```groovy
 Database resultsDB = ds.getDatabase(targetsPartition);
 ...
-for (GroundAtom atom : resultsDB.getAllGrondAtoms(Knows)) {
+Set atomSet = Queries.getAllAtoms(resultsDB, Knows);
 ```
 
 The first line gets a fresh database that we can get the atoms from.
 Notice that we are passing in `targetsPartition` as a write partition, but we are actually just reading from it.
 
-The second line uses the `Queries` class to iterate over all the `Knows` atoms from the database we just created.
+The second line uses the `Queries` class to get all the `Knows` atoms from the database we just created.
 
 ## Evaluation
 Lastly, the `evalResults()` method handles seeing how well our model did.
-The `DiscreteEvaluator` class provides basic tools to compare two partitions.
+The `DiscretePredictionComparator` and `ContinuousPredictionComparator` classes provide basic tools to compare two partitions.
 In this example, we are comparing our target partition to our truth partition.

@@ -5,17 +5,18 @@ layout: wiki
 *This page is for building the PSL source code for the purposes of development.
 For running a standard PSL program, see [Running a Program](Running-a-Program.md).*
 
+The PSL source code is [publicly available](https://github.com/linqs/psl/) and hosted on [GitHub](https://github.com).
+
 To get the code, simply clone the repository:
-```sh
-git clone https://github.com/linqs/psl.git
+```
+>> git clone https://github.com/linqs/psl.git
 ```
 
 If you are already comfortable using [Git](http://git-scm.com/), then you can just skip ahead to the section on compiling PSL.
 
 ### Getting started with Git
 
-The [Git website](http://git-scm.com/) has information on installing Git, as does the GitHub guides mentioned below.
-[This tutorial](https://git-scm.com/book/en/v2/Getting-Started-Git-Basics) is helpful for learning how to use Git, and [this tutorial](https://git.wiki.kernel.org/index.php/GitSvnCrashCourse) is particularly helpful for SVN users.
+The [Git website](http://git-scm.com/) has information on installing Git, as does the GitHub guides mentioned below. [This tutorial](https://git-scm.com/book/en/v2/Getting-Started-Git-Basics) is helpful for learning how to use Git, and [this tutorial](https://git.wiki.kernel.org/index.php/GitSvnCrashCourse) is particularly helpful for SVN users.
 
 Once Git is installed and you're ready to use it, you can run the above command to clone the PSL repository.
 
@@ -24,15 +25,15 @@ Once Git is installed and you're ready to use it, you can run the above command 
 Between releases, the *develop* branch may be significantly ahead of the *master* branch.
 To see the latest changes, checkout the *develop* branch.
 
-```sh
-git checkout develop
+```
+>> git checkout develop
 ```
 
 ### Contributing Code
 
-To contribute code to PSL first [fork](https://help.github.com/articles/fork-a-repo/) the [PSL development fork](https://github.com/eriq-augustine/psl).
+To contribute code to PSL first [fork the PSL repository](https://help.github.com/articles/fork-a-repo/), which means that you create a fork hosted on GitHub.
 
-Then you clone that repository to a local machine, make commits, and push some or all of those commits back to the repository on GitHub.
+Then you clone that repository to a local machine, make commits, and, push some or all of those commits back to the repository on GitHub.
 When your change is ready to be added to PSL, you can submit a [pull request](https://help.github.com/articles/about-pull-requests/) which will be reviewed by the PSL maintainers.
 The maintainers may request that you make additional changes.
 After your code is deemed acceptable, it will get merged into the *develop* branch of PSL.
@@ -40,15 +41,18 @@ After your code is deemed acceptable, it will get merged into the *develop* bran
 ### Building PSL
 
 PSL uses the [maven build system](https://maven.apache.org/).
-Move to the top-level directory of your working copy and run:
-```sh
-mvn compile
+Change to the top-level directory of your working copy and run
+
+```
+>> mvn compile
 ```
 
-You can install PSL to your local Maven repository by running:
-```sh
-mvn install
+You can install PSL to your local Maven repository by running
+
+```
+>> mvn install
 ```
 
-### Updating your pom
+### Updating your Projects
+
 Remember to update your project's `pom.xml` file with the (possibly) new version you installed.

@@ -4,7 +4,7 @@ layout: wiki
 
 PSL comes with several builtin similarity functions. If you have a need not captured by these functions, then you can also create [customized similarity functions](External-Functions.md).
 
-These similarity functions are shipped with the [PSL Utils](https://github.com/linqs/psl-utils) repository.
+These similarity functions are shipped with the [PSL Utils](https://github.com/linqs/psl-utils) package.
 
 ## Text Similarity
 

@@ -4,8 +4,8 @@ layout: wiki
 
 ## Maven Repository Move
 Our Maven repository has moved
- - from: `https://scm.umiacs.umd.edu/maven/lccd/content/repositories/psl-releases/`
- - to: `http://maven.linqs.org/maven/repositories/psl-releases/`
+ - from: `http://maven.linqs.org/maven/repositories/psl-releases/`
+ - to: `https://scm.umiacs.umd.edu/maven/lccd/content/repositories/psl-releases/`
 
 The new endpoint will redirect to a https endpoint that may be used if necessary:
 `https://linqs-data.soe.ucsc.edu/maven/repositories/psl-releases/`

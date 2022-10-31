@@ -2,30 +2,6 @@
 layout: wiki
 ---
 
-Version 2.1.0 (https://github.com/linqs/psl/tree/2.1.0)  
-[Full Change Information](https://psl.linqs.org/blog/2018/07/30/psl-2.1.0-release.html)
-
-   - PostgreSQL Database Backend
-   - Removed MySQL support
-   - Removed the Queries Class
-   - Removed InserterUtils
-   - Bulk Dataloading in Postgres
-   - Deferred Indexing
-   - No More Predicate Deserialization
-   - UniqueID Storage Types
-   - Long Predicate Names Allowed
-   - CLI Configuration Properties
-   - Complete CLI Predicate Typing
-   - Getting the PSL Version
-   - Random in PSL
-   - Parallelization in PSL
-   - Configuration Reworked
-   - New Canary Naming System
-   - Inference API Rework
-   - Moved PSL Evaluation
-   - Evaluation Infrastructure Changes
-   - External Function Support
-
 Version 2.0.0 (https://github.com/linqs/psl/tree/2.0.0)
    - Add a new type of rule called [Arithmetic Rules](Rule-Specification.md#arithmetic-rules).
       - The use case previously satisfied by [Constraints](Constraints.md) have been replaced by arithmetic rules.

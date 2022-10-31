@@ -16,4 +16,6 @@ You can [run a PSL Groovy program](Running-a-Program.md) in the same way that yo
 ### Groovy Specifics
 Here are some more detailed topics that you may need:
 - [Rule Specification](Rule-Specification-in-Groovy.md)
+- [Database Creation](Database-Creation.md)
+- [Weight Learning](Weight-Learning.md)
 - [Logging](Logging.md)

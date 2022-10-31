@@ -22,8 +22,7 @@ Because the in-line syntax must be a subset of Groovy syntax, the following oper
 - `->`
 - `<<`
 - `<-`
-- `!`
-
+- `!`  
 Note that there are supported variants for all unsupported operators.
 **Arithmetic rules** are **not** supported with the in-line syntax.
 
