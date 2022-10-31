@@ -2,16 +2,12 @@
 layout: wiki
 ---
 
-*This page is for building the PSL source code for the purposes of development.*
+*This page is for building the PSL source code for the purposes of development.
+For running a standard PSL program, see [Running a Program](Running-a-Program.md).*
 
 To get the code, simply clone the repository:
 ```sh
 git clone https://github.com/linqs/psl.git
-```
-
-If you plan on committing code or need the absolute latest, you may want to use the development repository:
-```sh
-git clone https://github.com/eriq-augustine/psl.git
 ```
 
 If you are already comfortable using [Git](http://git-scm.com/), then you can just skip ahead to the section on compiling PSL.

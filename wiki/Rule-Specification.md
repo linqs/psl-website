@@ -150,7 +150,7 @@ For example:
 ```
 
 ### Unweighted
-Unweighted rules (constraints) are suffixed with a period:
+Unweighted rules are suffixed with a period:
 ```
 <rule> .
 ```
@@ -260,11 +260,10 @@ Nice("Bob") && Nice("Alice") -> Friends("Bob", "Alice")
 
 ` % (^)` - Non-Symmetric  
 Ensure that the reverse (or equal) paring of the two operands is not grounded.
-Essentially, this enforces a less than relationship between the two operands.
 For example, consider the following two rules:
 ```
-SimilarNames(A, B) -> SamePerson(A, B)
 SimilarNames(A, B) && (A % B) -> SamePerson(A, B)
+SimilarNames(A, B) -> SamePerson(A, B)
 ```
 If A and B can both take the values "Alice" and "Bob", then the first rule would generate the following groundings:
 ```

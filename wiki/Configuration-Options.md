@@ -388,8 +388,8 @@ layout: wiki
 ***Description***:    The representative metric. Default to F1. Must match a string from the RepresentativeMetric enum.  
 
 ***Key***:            rankingevaluator.threshold  
-***Type***:           double  
-***Default Value***:  0.5  
+***Type***:             
+***Default Value***:    
 ***Module***:         psl-core  
 ***Defining Class***: org.linqs.psl.evaluation.statistics.RankingEvaluator  
 ***Description***:    The truth threshold.  

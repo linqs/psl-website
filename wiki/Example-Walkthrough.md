@@ -2,7 +2,7 @@
 layout: wiki
 ---
 
-This page will walk you through the Java version of the **Simple Acquaintances** example.
+This page will walk you through the Groovy version of the **Simple Acquaintances** example.
 
 ## Setup
 
@@ -14,9 +14,9 @@ git clone https://github.com/linqs/psl-examples.git
 
 ## Running
 
-Then move into the root directory for the simple acquaintances Java example:
+Then move into the root directory for the simple acquaintances groovy example:
 ```
-cd psl-examples/simple-acquaintances/java
+cd psl-examples/simple-acquaintances/groovy
 ```
 
 Each example comes with a `run.sh` script to quickly compile and run the example.
@@ -41,7 +41,7 @@ You should see some output like:
 The exact order of the output may change and some rows were left out for brevity.
 
 Now that we have the example running, lets take a look inside the only source file for the example:
-`src/main/java/org/linqs/psl/examples/simpleacquaintances/Run.java`.
+`src/main/java/org/linqs/psl/examples/simpleacquaintances/Run.groovy`.
 
 ## Configuration
 
@@ -53,10 +53,10 @@ Configuration options can still be set using the `addProperty()` and `setPropert
 
 ## Defining Predicates
 The `definePredicates()` method defines the three predicates for our example:
-```java
-model.addPredicate("Lived", ConstantType.UniqueStringID, ConstantType.UniqueStringID);
-model.addPredicate("Likes", ConstantType.UniqueStringID, ConstantType.UniqueStringID);
-model.addPredicate("Knows", ConstantType.UniqueStringID, ConstantType.UniqueStringID);
+```groovy
+model.add predicate: "Lived", types: [ConstantType.UniqueStringID, ConstantType.UniqueStringID];
+model.add predicate: "Likes", types: [ConstantType.UniqueStringID, ConstantType.UniqueStringID];
+model.add predicate: "Knows", types: [ConstantType.UniqueStringID, ConstantType.UniqueStringID];
 ```
 
 Each predicate here takes two unique string identifiers as arguments.
@@ -68,11 +68,16 @@ Having integer identifiers usually requires more pre-processing on the user's si
 
 ## Defining Rules
 The `defineRules()` method defines six rules for the example.
-[This page](Rule-Specification.md) covers how rules can be defined in PSL.
+There are pages that cover the PSL [rule specification](Rule-Specification.md) and the [rule specification in Groovy](Rule-Specification-in-Groovy.md).
 We will discuss the following two rules:
-```java
-model.addRule("20: Lived(P1, L) & Lived(P2, L) & (P1 != P2) -> Knows(P1, P2) ^2");
-model.addRule("5: !Knows(P1, P2) ^2");
+```groovy
+model.add(
+   rule: "20: Lived(P1, L) & Lived(P2, L) & (P1 != P2) -> Knows(P1, P2) ^2"
+);
+
+model.add(
+   rule: "5: !Knows(P1, P2) ^2"
+);
 ```
 
 The first first rule can be read as "If P1 and P2 are different people and have both lived in the same location, L, then they know each other".
@@ -88,11 +93,11 @@ Therefore, the program will start with the belief that no one knows each other a
 ## Loading Data
 The `loadData()` method loads the data from the flat files in the `data` directory into the data store that PSL is working with.
 For berevity, we will only be looking at two files:
-```java
-Inserter inserter = dataStore.getInserter(model.getStandardPredicate("Lived"), obsPartition);
+```groovy
+Inserter inserter = dataStore.getInserter(Lived, obsPartition);
 inserter.loadDelimitedData(Paths.get(DATA_PATH, "lived_obs.txt").toString());
 
-inserter = dataStore.getInserter(model.getStandardPredicate("Likes"), obsPartition);
+inserter = dataStore.getInserter(Likes, obsPartition);
 inserter.loadDelimitedDataTruth(Paths.get(DATA_PATH, "likes_obs.txt").toString());
 ```
 
@@ -134,9 +139,8 @@ PSL users typically organize their data in at least three different partitions (
 The `runInference()` method handles running inference for all the data we have loaded.
 
 Before we run inference, we have to set up a database to use for inference:
-```java
-StandardPredicate[] closedPredicates = new StandardPredicate[]{model.getStandardPredicate("Lived"), model.getStandardPredicate("Likes")};
-Database inferDB = dataStore.getDatabase(targetsPartition, closedPredicates, obsPartition);
+```groovy
+Database inferDB = dataStore.getDatabase(targetsPartition, [Lived, Likes] as Set, obsPartition);
 ```
 The `getDatabase()` method of `DataStore` is the proper way to get a database.
 This method takes a minimum of two parameters:
@@ -146,10 +150,9 @@ Lastly, `getDatabase()` takes any number of read-only partitions that you want t
 In our example, we want to include our observations when we run inference.
 
 Now we are ready to run inference:
-```java
+```groovy
 InferenceApplication inference = new MPEInference(model, inferDB);
 inference.inference();
-
 inference.close();
 inferDB.close();
 ```
@@ -160,10 +163,10 @@ To see the results, then we will need to look inside of the target partition.
 ## Output
 The method `writeOutput()` handles printing out the results of the inference.
 There are two key lines in this method:
-```java
-Database resultsDB = dataStore.getDatabase(targetsPartition);
+```groovy
+Database resultsDB = ds.getDatabase(targetsPartition);
 ...
-for (GroundAtom atom : resultsDB.getAllGroundAtoms(model.getStandardPredicate("Knows"))) {
+for (GroundAtom atom : resultsDB.getAllGrondAtoms(Knows)) {
 ```
 
 The first line gets a fresh database that we can get the atoms from.
