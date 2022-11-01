@@ -8,8 +8,9 @@ but does require coordinating between several repositories (which should all get
  - [psl-examples](https://github.com/linqs/psl-examples)
  - [psl-website](https://github.com/linqs/psl-website)
 
-In this document, we will assume we are releasing version `2.3.1`.
+In this document, we will assume we are releasing version `2.3.1` (thus our SNAPSHOT version will not change).
 Make sure to change this to fit your situation.
+Additionally, make sure you read and understands commands before you execute them.
 
 Of course, before you start anything make sure all your repositories are clean and up-to-date.
 
@@ -24,7 +25,10 @@ Then test the psl-examples:
 ```
 ### psl-examples
 
+# Remove all existing jars from the examples repo.
 find . -name 'psl*.jar' | xargs rm
+
+# Run tests.
 ./.ci/check_conventions.sh
 ./.ci/run_interface_examples.sh
 ./.ci/run_examples.sh
@@ -75,7 +79,7 @@ vim .templates/generate_scripts.py
 # Check your changes.
 git diff
 
-# Ensure the new version can be properly fetched
+# Ensure the new version can be properly fetched by removing previous jars.
 # You may have to wait a while for it to be available.
 find . -name 'psl*.jar' | xargs rm
 ./.ci/run_interface_examples.sh
