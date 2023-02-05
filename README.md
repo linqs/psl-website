@@ -1,6 +1,6 @@
 # PSL Website
 
-This repository is the canonical website reference for the [Probabilistic Soft Logic (PSL)](https://github.com/linqs/psl) machine learning framework made by the [LINQS machine learning lab](https://linqs.soe.ucsc.edu/).
+This repository is the canonical reference for the [Probabilistic Soft Logic (PSL)](https://github.com/linqs/psl) machine learning framework made by the [LINQS machine learning lab](https://linqs.soe.ucsc.edu/).
 
 ## Building the Site Locally
 
