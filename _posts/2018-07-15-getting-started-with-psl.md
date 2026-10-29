@@ -183,7 +183,7 @@ In a `.data` file, you should first define your `predicates:` as shown in the ab
 Use the `open` and `closed` keywords to characterize each predicate.
 
 A `closed` predicate is a predicate whose values are always observed.
-For example, the `knows` predicate from the simple example is closed because we fully observe the entire network of people that know one another.
+For example, the `Lived` predicate from the simple example is closed because we fully observe the entire history of where people have lived.
 On the other hand, an `open` predicate is a predicate where some values may be observed, but some values are missing and thus, need to be inferred.
 
 As shown above, then create your `observations:`, `targets:` and `truth:` sections that list the names of files that specify the observed values for predicates, values you want to infer for open predicates, and observed ground truth values for open predicates.
